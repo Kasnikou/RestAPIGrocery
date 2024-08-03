@@ -1,0 +1,98 @@
+[
+ {
+   "ProductCode": 1,
+   "ProductName": "Edible oil",
+   "ProductQuantity": 300,
+   "ProductPrice": 90
+ },
+ {
+   "ProductCode": 6,
+   "ProductName": "Toothbrush",
+   "ProductQuantity": 50,
+   "ProductPrice": 40
+ },
+ {
+   "ProductCode": 9,
+   "ProductName": "shampoo",
+   "ProductQuantity": 100,
+   "ProductPrice": 20
+ },
+ {
+   "ProductCode": 1,
+   "ProductName": "Edible oil",
+   "ProductQuantity": 100,
+   "ProductPrice": 90
+ },
+ {
+   "ProductCode": 1,
+   "ProductName": "Edible oil",
+   "ProductQuantity": 30,
+   "ProductPrice": 90
+ },
+ {
+   "ProductCode": 9,
+   "ProductName": "shampoo",
+   "ProductQuantity": 50,
+   "ProductPrice": 20
+ },
+ {
+   "ProductCode": 6,
+   "ProductName": "Toothbrush",
+   "ProductQuantity": 100,
+   "ProductPrice": 40
+ },
+ {
+   "ProductCode": 9,
+   "ProductName": "shampoo",
+   "ProductQuantity": 200,
+   "ProductPrice": 20
+ },
+ {
+   "ProductCode": 1,
+   "ProductName": "Edible oil",
+   "ProductQuantity": 300,
+   "ProductPrice": 90
+ },
+ {
+   "ProductCode": 9,
+   "ProductName": "shampoo",
+   "ProductQuantity": 80,
+   "ProductPrice": 20
+ },
+ {
+   "ProductCode": 1,
+   "ProductName": "Edible oil",
+   "ProductQuantity": 500,
+   "ProductPrice": 90
+ },
+ {
+   "ProductCode": 6,
+   "ProductName": "Toothbrush",
+   "ProductQuantity": 150,
+   "ProductPrice": 40
+ },
+ {
+   "ProductCode": 9,
+   "ProductName": "shampoo",
+   "ProductQuantity": 200,
+   "ProductPrice": 20
+ },
+ {
+   "ProductCode": 4,
+   "ProductName": "P_Biscuits",
+   "ProductQuantity": 50,
+   "ProductPrice": 10
+ },
+ {
+   "ProductCode": 4,
+   "ProductName": "P_Biscuits",
+   "ProductQuantity": 50,
+   "ProductPrice": 10
+ },
+ {
+   "ProductCode": 8,
+   "ProductName": "Cornflakes",
+   "ProductQuantity": 40,
+   "ProductPrice": 60
+ }
+]

@@ -1,0 +1,845 @@
+{
+	"info": {
+		"_postman_id": "6ac5b7a6-77f1-45d8-ba4f-44c57d3ef508",
+		"name": "Gelos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23763769"
+	},
+	"item": [
+		{
+			"name": "deleteProduct",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIyIiwicm9sZSI6IkJpbGxpbmcgYXJlYSBlbXBsb3llZSIsImlhdCI6MTY5OTc3NzE2OSwiZXhwIjoxNjk5NzgwNzY5fQ.HNSh4GskQ49_cgrzFv_-RZsaosojsgcDPcB55jQUON8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/products/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreflightTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test to ensure the server responds with the correct CORS headers\r",
+							"pm.test(\"CORS Headers are present\", function () {\r",
+							"    pm.response.to.have.header(\"Access-Control-Allow-Origin\");\r",
+							"    pm.response.to.have.header(\"Access-Control-Allow-Methods\");\r",
+							"    pm.response.to.have.header(\"Access-Control-Allow-Headers\");\r",
+							"});\r",
+							"\r",
+							"// Test for status code\r",
+							"pm.test(\"Status code is 200 or 204\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+							"});\r",
+							"\r",
+							"// Test for response content\r",
+							"// Only run this test if we got a 200 status code, because 204 means \"No Content\"\r",
+							"if (pm.response.code === 200) {\r",
+							"    pm.test(\"Response has expected content\", function () {\r",
+							"        let jsonData;\r",
+							"        try {\r",
+							"            // Try to parse the response body as JSON\r",
+							"            jsonData = pm.response.json();\r",
+							"        } catch (e) {\r",
+							"            // If there is an error parsing JSON, fail the test\r",
+							"            pm.expect.fail(\"Response is not in JSON format\");\r",
+							"        }\r",
+							"\r",
+							"        // Perform checks on the JSON data\r",
+							"        pm.expect(jsonData).to.be.an('array');\r",
+							"        jsonData.forEach((item) => {\r",
+							"            pm.expect(item).to.have.property('ProductCode');\r",
+							"            pm.expect(item).to.have.property('ProductName');\r",
+							"            pm.expect(item).to.have.property('ProductQuantity');\r",
+							"            pm.expect(item).to.have.property('ProductPrice');\r",
+							"        });\r",
+							"    });\r",
+							"} else if (pm.response.code === 204) {\r",
+							"    // If the status code is 204, we expect no content\r",
+							"    pm.test(\"204 No Content response received\", function () {\r",
+							"        pm.expect(pm.response.text()).to.be.empty;\r",
+							"    });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3NjY0NTYsImV4cCI6MTY5OTc3MDA1Nn0.yz1jSLGXGIt3NY-z9O2L2nnxAgZwJPD7fV84g6etjuY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Origin",
+						"value": "https://google.com.au",
+						"type": "text"
+					},
+					{
+						"key": "Access-Control-Request-Method",
+						"value": "GET",
+						"type": "text"
+					},
+					{
+						"key": "Access-Control-Request-Headers",
+						"value": "Content-Type, Authorization",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetProductbyProductNum",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/products/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllOrders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test script for visualizing orders\r",
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:14px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>OrderNo</th>\r",
+							"        <th>OrderDate</th>\r",
+							"        <th>CustNo</th>\r",
+							"        <th>ProductCode</th>\r",
+							"        <th>ProductName</th>\r",
+							"        <th>ProductQuantity</th>\r",
+							"        <th>ProductPrice</th>\r",
+							"        <th>Total</th>\r",
+							"        <th>ModeOfPayment</th>\r",
+							"        <th>Last Updated</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response}}\r",
+							"        <tr>\r",
+							"            <td>{{OrderNo}}</td>\r",
+							"            <td>{{OrderDate}}</td>\r",
+							"            <td>{{CustNo}}</td>\r",
+							"            <td>{{ProductCode}}</td>\r",
+							"            <td>{{ProductName}}</td>\r",
+							"            <td>{{ProductQuantity}}</td>\r",
+							"            <td>{{ProductPrice}}</td>\r",
+							"            <td>{{Total}}</td>\r",
+							"            <td>{{ModeOfPayment}}</td>\r",
+							"            <td>{{LastUpdated}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"// This function will be used by Postman to inject the response into the visualizer\r",
+							"function constructVisualizerPayload() {\r",
+							"    // The line below assumes the response is an array. If your response is an object with an array inside,\r",
+							"    // adjust the path to the array accordingly, for example: pm.response.json().orders\r",
+							"    return {response: pm.response.json()};\r",
+							"}\r",
+							"\r",
+							"// Set the visualizer with the template and data\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());\r",
+							"\r",
+							"// Optionally, you can add tests/assertions here if you want to validate the response\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response must be an array\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('array');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3NjY0NTYsImV4cCI6MTY5OTc3MDA1Nn0.yz1jSLGXGIt3NY-z9O2L2nnxAgZwJPD7fV84g6etjuY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/orders/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddNewOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3Njg5OTYsImV4cCI6MTY5OTc3MjU5Nn0.Slr_MQYs2J8hQH7yvhsQF2D-9hbwMFLX8H9yzep_NGQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"OrderNo\": 2023,\r\n   \"OrderDate\": \"10/11/2023\",\r\n   \"CustNo\": 9876598765,\r\n   \"ProductCode\": 1,\r\n   \"ProductName\": \"Edible oil\",\r\n   \"ProductQuantity\": 3,\r\n   \"ProductPrice\": 90,\r\n   \"Total\": 270,\r\n   \"ModeOfPayment\": \"Cash\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3Njg5OTYsImV4cCI6MTY5OTc3MjU5Nn0.Slr_MQYs2J8hQH7yvhsQF2D-9hbwMFLX8H9yzep_NGQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"OrderNo\": 1004,\r\n   \"OrderDate\": \"23/05/2022\",\r\n   \"CustNo\": 8890102345,\r\n   \"ProductCode\": 9,\r\n   \"ProductName\": \"Shampoo\",\r\n   \"ProductQuantity\": 15,\r\n   \"ProductPrice\": 20,\r\n   \"Total\": 300,\r\n   \"ModeOfPayment\": \"Online\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/2000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3Njg5OTYsImV4cCI6MTY5OTc3MjU5Nn0.Slr_MQYs2J8hQH7yvhsQF2D-9hbwMFLX8H9yzep_NGQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"OrderNo\": 1003,\r\n   \"OrderDate\": \"10/11/2023\",\r\n   \"CustNo\": 11111,\r\n   \"ProductCode\": 1,\r\n   \"ProductName\": \"Edible oil\",\r\n   \"ProductQuantity\": 5,\r\n   \"ProductPrice\": 90,\r\n   \"Total\": 450,\r\n   \"ModeOfPayment\": \"Cash\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/1003",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						"1003"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PatchOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3Njg5OTYsImV4cCI6MTY5OTc3MjU5Nn0.Slr_MQYs2J8hQH7yvhsQF2D-9hbwMFLX8H9yzep_NGQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n   \"CustNo\": 2023\r\n   \r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders/1002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "putProducts",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"ProductCode\": 1,\r\n   \"ProductName\": \"Edible oil\",\r\n   \"ProductQuantity\": 3000,\r\n   \"ProductPrice\": 90\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postProducts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"ProductCode\": 9,\r\n   \"ProductName\": \"shampoo\",\r\n   \"ProductQuantity\": 100,\r\n   \"ProductPrice\": 20\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchProducts",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"ProductCode\": 10\r\n   \r\n   \r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/products/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllEmployees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test script to visualize the response in a table format\r",
+							"pm.visualizer.set(`\r",
+							"   <style type=\"text/css\">\r",
+							"    table {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    table th {font-size:14px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    table tr {background-color:#ffffff;}\r",
+							"    table td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    table tr:hover {background-color:#e0ffff;}\r",
+							"   </style>\r",
+							"    <table>\r",
+							"        <thead>\r",
+							"            <tr>\r",
+							"                <th>Employee ID</th>\r",
+							"                <th>Username</th>\r",
+							"                <th>Role</th>\r",
+							"            </tr>\r",
+							"        </thead>\r",
+							"        <tbody>\r",
+							"            {{#each response}}\r",
+							"                <tr>\r",
+							"                    <td>{{Empid}}</td>\r",
+							"                    <td>{{Username}}</td>\r",
+							"                    <td>{{Role}}</td>\r",
+							"                </tr>\r",
+							"            {{/each}}\r",
+							"        </tbody>\r",
+							"    </table>\r",
+							"`, {\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3Njg5OTYsImV4cCI6MTY5OTc3MjU5Nn0.Slr_MQYs2J8hQH7yvhsQF2D-9hbwMFLX8H9yzep_NGQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteEmployee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3NzQ3NDYsImV4cCI6MTY5OTc3ODM0Nn0.PIrQPmUpqcq5-jcCS4R8iZItxQHfGypj9J3NHKa5Kjs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/employees/111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postEmployee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3NzQ3NDYsImV4cCI6MTY5OTc3ODM0Nn0.PIrQPmUpqcq5-jcCS4R8iZItxQHfGypj9J3NHKa5Kjs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"Empid\": 111,\r\n   \"Username\": \"Karyna\",\r\n   \"Password\": \"Karyna\",\r\n   \"Role\":\"Billing area employee\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/employees/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchEmployee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3NzQ3NDYsImV4cCI6MTY5OTc3ODM0Nn0.PIrQPmUpqcq5-jcCS4R8iZItxQHfGypj9J3NHKa5Kjs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \r\n   \"Username\": \"Karyna\"\r\n   \r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/employees/106",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"106"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "putEmployee",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"Empid\": 107,\r\n   \"Username\": \"Jam24\",\r\n   \"Password\": \"111111\",\r\n   \"Role\":\"Billing area employee\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/employees/107",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees",
+						"107"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n   \"Username\": \"Jam21\",\r\n   \"Password\": \"Axgp231@!\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerNewEmployee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Empid\":\"222\",\r\n    \"Username\":\"Ale2\",\r\n    \"Password\":\"Ale2\",\r\n    \"Role\":\"Manager\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GelAllProducts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response to JSON first\r",
+							"let responseData;\r",
+							"try {\r",
+							"    responseData = pm.response.json();\r",
+							"} catch (e) {\r",
+							"    // If the response is not in JSON format or if there's no response, set it to an empty array\r",
+							"    responseData = [];\r",
+							"    console.error('Error while parsing the response.', e);\r",
+							"}\r",
+							"\r",
+							"// Only run the visualization if we got a 200 status code and the response is not empty\r",
+							"if (pm.response.code === 200 && responseData.length !== 0) {\r",
+							"    pm.visualizer.set(`\r",
+							"        <style>\r",
+							"            table { width: 100%; border-collapse: collapse; }\r",
+							"            th, td { border: 1px solid black; padding: 8px; text-align: left; }\r",
+							"            th { background-color: #f2f2f2; }\r",
+							"        </style>\r",
+							"        <table>\r",
+							"            <thead>\r",
+							"                <tr>\r",
+							"                    <th>ID</th>\r",
+							"                    <th>Product Code</th>\r",
+							"                    <th>Product Name</th>\r",
+							"                    <th>Product Quantity</th>\r",
+							"                    <th>Product Price</th>\r",
+							"                </tr>\r",
+							"            </thead>\r",
+							"            <tbody>\r",
+							"                {{#each response}}\r",
+							"                    <tr>\r",
+							"                        <td>{{_id}}</td>\r",
+							"                        <td>{{ProductCode}}</td>\r",
+							"                        <td>{{ProductName}}</td>\r",
+							"                        <td>{{ProductQuantity}}</td>\r",
+							"                        <td>{{ProductPrice}}</td>\r",
+							"                    </tr>\r",
+							"                {{/each}}\r",
+							"            </tbody>\r",
+							"        </table>\r",
+							"    `, { response: responseData });\r",
+							"} else {\r",
+							"    pm.visualizer.set(\"No data to visualize.\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkphbTIxIiwicm9sZSI6Ik1hbmFnZXIiLCJpYXQiOjE2OTk3NjY0NTYsImV4cCI6MTY5OTc3MDA1Nn0.yz1jSLGXGIt3NY-z9O2L2nnxAgZwJPD7fV84g6etjuY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

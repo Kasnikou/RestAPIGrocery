@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Order</title>
+</head>
+<body>
+    <h2>Add New Order</h2>
+    <form id="newOrderForm">
+        <label for="orderNo">Order Number:</label>
+        <input type="number" id="orderNo" name="orderNo" required><br><br>
+
+        <label for="orderDate">Order Date:</label>
+        <input type="text" id="orderDate" name="orderDate" required><br><br>
+
+        <label for="custNo">Customer Number:</label>
+        <input type="number" id="custNo" name="custNo" required><br><br>
+
+        <label for="productCode">Product Code:</label>
+        <input type="number" id="productCode" name="productCode" required><br><br>
+
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="productName" required><br><br>
+
+        <label for="productQuantity">Product Quantity:</label>
+        <input type="number" id="productQuantity" name="productQuantity" required><br><br>
+
+        <label for="productPrice">Product Price:</label>
+        <input type="number" id="productPrice" name="productPrice" required><br><br>
+
+        <label for="total">Total:</label>
+        <input type="number" id="total" name="total" required><br><br>
+
+        <label for="modeOfPayment">Mode of Payment:</label>
+        <select id="modeOfPayment" name="modeOfPayment" required>
+            <option value="Cash">Cash</option>
+            <option value="Online">Online</option>
+           
+        </select><br><br>
+
+        <button type="submit">Submit Order</button>
+    </form>
+
+    <p id="message"></p>
+
+    
+    <script>
+        document.getElementById('newOrderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    addNewOrder();
+});
+
+function addNewOrder() {
+    const token = localStorage.getItem('token'); // Retrieve the stored token
+    if (!token) {
+        alert('You are not authenticated. Please log in first.');
+        return;
+    }
+
+    const orderData = {
+        OrderNo: document.getElementById('orderNo').value,
+        OrderDate: document.getElementById('orderDate').value,
+        CustNo: document.getElementById('custNo').value,
+        ProductCode: document.getElementById('productCode').value,
+        ProductName: document.getElementById('productName').value,
+        ProductQuantity: document.getElementById('productQuantity').value,
+        ProductPrice: document.getElementById('productPrice').value,
+        Total: document.getElementById('total').value,
+        ModeOfPayment: document.getElementById('modeOfPayment').value
+    };
+
+    fetch('http://localhost:3000/orders', { // Replace with your actual orders endpoint
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('message').textContent = 'Order added successfully: ' + JSON.stringify(data);
+        console.log('Success:', data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('message').textContent = 'Error adding order: ' + error.message;
+    });
+}
+
+    </script>
+</body>
+</html>

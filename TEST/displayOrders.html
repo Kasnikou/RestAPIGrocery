@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Information</title>
+
+</head>
+<body>
+    <h2>Order Information</h2>
+    <button id="fetchOrders">Fetch Orders</button>
+    <div id="ordersContainer"></div>
+    
+
+    <script>
+        document.getElementById('fetchOrders').addEventListener('click', function() {
+            fetchOrders();
+        });
+    
+        function fetchOrders() {
+            const token = localStorage.getItem('token'); // Retrieve the stored token
+            if (!token) {
+                alert('You are not authenticated. Please log in first.');
+                return;
+            }
+    
+            fetch('http://localhost:3000/orders', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(orders => {
+                displayOrders(orders);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    
+        function displayOrders(orders) {
+            const container = document.getElementById('ordersContainer');
+            if (orders.length === 0) {
+                container.innerHTML = '<p>No orders found.</p>';
+                return;
+            }
+    
+            let tableHtml = `<table border="1">
+                                <tr>
+                                    <th>Order Number</th>
+                                    <th>Order Date</th>
+                                    <th>Customer Number</th>
+                                    <th>Product Code</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Payment Mode</th>
+                                </tr>`;
+    
+            orders.forEach(order => {
+                tableHtml += `<tr>
+                                <td>${order.OrderNo}</td>
+                                <td>${order.OrderDate}</td>
+                                <td>${order.CustNo}</td>
+                                <td>${order.ProductCode}</td>
+                                <td>${order.ProductQuantity}</td>
+                                <td>${order.ProductPrice}</td>
+                                <td>${order.Total}</td>
+                                <td>${order.ModeOfPayment}</td>
+                              </tr>`;
+            });
+    
+            tableHtml += `</table>`;
+            container.innerHTML = tableHtml;
+        }
+    </script>
+    
+</body>
+</html>

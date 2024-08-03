@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Order</title>
+
+</head>
+<body>
+    <h2>Delete Order</h2>
+    <form id="deleteOrderForm">
+        <label for="orderNo">Order Number (to delete):</label>
+        <input type="number" id="orderNo" name="orderNo" required><br><br>
+
+        <button type="submit">Delete Order</button>
+    </form>
+
+    <p id="message"></p>
+
+    
+    <script>
+        document.getElementById('deleteOrderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    deleteOrder();
+});
+
+function deleteOrder() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('You are not authenticated. Please log in first.');
+        return;
+    }
+
+    const orderNo = document.getElementById('orderNo').value;
+
+    fetch(`http://localhost:3000/orders/${orderNo}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('message').textContent = 'Order deleted successfully: ' + JSON.stringify(data);
+        console.log('Success:', data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('message').textContent = 'Error deleting order: ' + error.message;
+    });
+}
+
+
+    </script>
+</body>
+</html>

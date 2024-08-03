@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Order</title>
+    <!-- Add any additional CSS here -->
+</head>
+<body>
+    <h2>Update Order</h2>
+    <form id="updateOrderForm">
+        <label for="orderNo">Order Number (to update):</label>
+        <input type="number" id="orderNo" name="orderNo" required><br><br>
+
+        <label for="orderDate">Order Date:</label>
+        <input type="text" id="orderDate" name="orderDate" required><br><br>
+
+        <label for="custNo">Customer Number:</label>
+        <input type="number" id="custNo" name="custNo" required><br><br>
+
+        <label for="productCode">Product Code:</label>
+        <input type="number" id="productCode" name="productCode" required><br><br>
+
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="productName" required><br><br>
+
+        <label for="productQuantity">Product Quantity:</label>
+        <input type="number" id="productQuantity" name="productQuantity" required><br><br>
+
+        <label for="productPrice">Product Price:</label>
+        <input type="number" id="productPrice" name="productPrice" required><br><br>
+
+        <label for="total">Total:</label>
+        <input type="number" id="total" name="total" required><br><br>
+
+        <label for="modeOfPayment">Mode of Payment:</label>
+        <select id="modeOfPayment" name="modeOfPayment" required>
+            <option value="Cash">Cash</option>
+            <option value="Credit">Credit</option>
+            <option value="Debit">Debit</option>
+            <!-- Add other payment modes as necessary -->
+        </select><br><br>
+
+        <button type="submit">Update Order</button>
+    </form>
+
+    <p id="message"></p>
+
+    
+    <script>
+        document.getElementById('updateOrderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    updateOrder();
+});
+
+function updateOrder() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('You are not authenticated. Please log in first.');
+        return;
+    }
+
+    const orderNo = document.getElementById('orderNo').value;
+    const orderDate = document.getElementById('orderDate').value;
+    const custNo = document.getElementById('custNo').value;
+    const productCode = document.getElementById('productCode').value;
+    const productName = document.getElementById('productName').value;
+    const productQuantity = document.getElementById('productQuantity').value;
+    const productPrice = document.getElementById('productPrice').value;
+    const total = document.getElementById('total').value;
+    const modeOfPayment = document.getElementById('modeOfPayment').value;
+
+    const orderData = {
+        OrderNo: orderNo,
+        OrderDate: orderDate,
+        CustNo: custNo,
+        ProductCode: productCode,
+        ProductName: productName,
+        ProductQuantity: productQuantity,
+        ProductPrice: productPrice,
+        Total: total,
+        ModeOfPayment: modeOfPayment
+    };
+
+    fetch(`http://localhost:3000/orders/${orderNo}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('message').textContent = 'Order updated successfully: ' + JSON.stringify(data);
+        console.log('Success:', data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('message').textContent = 'Error updating order: ' + error.message;
+    });
+}
+
+    </script>
+</body>
+</html>

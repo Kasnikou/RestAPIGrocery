@@ -1,0 +1,350 @@
+openapi: 3.0.0
+info:
+  title: Gelos Grocery Management API
+  description: API for managing grocery store products, orders, and employees.
+  version: 1.0.0
+paths:
+  /products:
+    get:
+      summary: List all products
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+  /products/{ProductCode}:
+    get:
+      summary: Retrieve a product by its product code
+      parameters:
+        - in: path
+          name: ProductCode
+          required: true
+          schema:
+            type: integer
+          description: Unique product code
+      responses:
+        "200":
+          description: Details of the product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Product not found
+    put:
+      summary: Update a product entirely by its product code
+      parameters:
+        - in: path
+          name: ProductCode
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "200":
+          description: Product updated successfully
+        "404":
+          description: Product not found
+    patch:
+      summary: Partially update a product by its product code
+      parameters:
+        - in: path
+          name: ProductCode
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ProductName:
+                  type: string
+                ProductPrice:
+                  type: number
+                ProductQuantity:
+                  type: integer
+      responses:
+        "200":
+          description: Product updated successfully
+        "404":
+          description: Product not found
+    delete:
+      summary: Delete a product by its product code
+      parameters:
+        - in: path
+          name: ProductCode
+          required: true
+          schema:
+            type: integer
+          description: Unique product code
+      responses:
+        "200":
+          description: Product deleted successfully
+        "404":
+          description: Product not found
+  /orders:
+    get:
+      summary: Retrieve a list of all orders
+      responses:
+        "200":
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+
+  /orders/{orderNo}:
+    get:
+      summary: Retrieve a specific order by OrderNo
+      parameters:
+        - in: path
+          name: orderNo
+          required: true
+          schema:
+            type: integer
+          description: Unique order number
+      responses:
+        "200":
+          description: Details of the order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "404":
+          description: Order not found
+
+    put:
+      summary: Update an entire order by OrderNo
+      parameters:
+        - in: path
+          name: orderNo
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        "200":
+          description: Order updated successfully
+        "404":
+          description: Order not found
+
+    patch:
+      summary: Partially update an order by OrderNo
+      parameters:
+        - in: path
+          name: orderNo
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                - OrderNo
+                - OrderDate
+                - CustNo
+                - ProductCode
+                - ProductName
+                - ProductQuantity
+                - ProductPrice
+                - Total
+                - ModeOfPayment
+      responses:
+        "200":
+          description: Order updated successfully
+        "404":
+          description: Order not found
+
+    delete:
+      summary: Delete an order by OrderNo
+      parameters:
+        - in: path
+          name: orderNo
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Order deleted successfully
+        "404":
+          description: Order not found
+  /employees:
+    get:
+      summary: Retrieve a list of all employees
+      responses:
+        "200":
+          description: A list of employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+
+  /employees/{empId}:
+    get:
+      summary: Retrieve a specific employee by Empid
+      parameters:
+        - in: path
+          name: empId
+          required: true
+          schema:
+            type: integer
+          description: Unique employee ID
+      responses:
+        "200":
+          description: Details of the employee
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "404":
+          description: Employee not found
+
+    put:
+      summary: Update an entire employee record by Empid
+      parameters:
+        - in: path
+          name: empId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Employee"
+      responses:
+        "200":
+          description: Employee updated successfully
+        "404":
+          description: Employee not found
+
+    patch:
+      summary: Partially update an employee record by Empid
+      parameters:
+        - in: path
+          name: empId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                - Empid
+                - Username
+                - Password
+                - Role
+      responses:
+        "200":
+          description: Employee updated successfully
+        "404":
+          description: Employee not found
+
+    delete:
+      summary: Delete an employee record by Empid
+      parameters:
+        - in: path
+          name: empId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Employee deleted successfully
+        "404":
+          description: Employee not found
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        ProductCode:
+          type: integer
+        ProductName:
+          type: string
+        ProductPrice:
+          type: number
+        ProductQuantity:
+          type: integer
+      required:
+        - ProductCode
+        - ProductName
+        - ProductPrice
+        - ProductQuantity
+
+    Order:
+      type: object
+      properties:
+        OrderNo:
+          type: integer
+        OrderDate:
+          type: string
+        CustNo:
+          type: integer
+        ProductCode:
+          type: integer
+        ProductName:
+          type: string
+        ProductQuantity:
+          type: integer
+        ProductPrice:
+          type: integer
+        Total:
+          type: integer
+        ModeOfPayment:
+          type: string
+      required:
+        - OrderNo
+        - OrderDate
+        - CustNo
+        - ProductCode
+        - ProductName
+        - ProductQuantity
+        - ProductPrice
+        - Total
+        - ModeOfPayment
+
+    Employee:
+      type: object
+      properties:
+        Empid:
+          type: integer
+        Username:
+          type: string
+        Password:
+          type: string
+        Role:
+          type: string
+      required:
+        - Empid
+        - Username
+        - Password
+        - Role

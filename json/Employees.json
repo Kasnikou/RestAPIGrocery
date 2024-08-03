@@ -1,0 +1,44 @@
+[
+ {
+   "Empid": 101,
+   "Username": "Jam21",
+   "Password": "Axgp231@!",
+   "Role":"Manager"
+ },
+ {
+   "Empid": 102,
+   "Username": "Luc43",
+   "Password": "Axgp231@!",
+   "Role":"Billing area employee"
+ },
+ {
+   "Empid": 103,
+   "Username": "Jam22",
+   "Password": "aXgp231@!",
+   "Role":"Billing area employee"
+ },
+ {
+   "Empid": 104,
+   "Username": "Jam23",
+   "Password": "Aaxgp231@!",
+   "Role":"Billing area employee"
+ },
+ {
+   "Empid": 105,
+   "Username": "Luc44",
+   "Password": "Axgp431@!",
+   "Role":"Billing area employee"
+ },
+ {
+   "Empid": 106,
+   "Username": "Luc45",
+   "Password": "AxGP7831@!",
+   "Role":"Billing area employee"
+ },
+ {
+   "Empid": 107,
+   "Username": "Jam24",
+   "Password": "Axgp231@!34",
+   "Role":"Billing area employee"
+ }
+]

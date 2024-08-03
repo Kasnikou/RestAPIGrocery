@@ -1,0 +1,8 @@
+[
+    { 
+        "customerName" : "Brendon Gordon",
+      "products" : ["Edible oil", "Toothbrush"],
+     "createdAt" : "2022-06-21" 
+    }
+
+]
